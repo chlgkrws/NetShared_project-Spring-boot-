@@ -11,12 +11,12 @@
 
     <typeAliases>
         <typeAlias alias="CamelCaseMap" type="com.gsitm.netShared.mybatis.type.CamelCaseMap"/>
-        <typeAlias alias="BoardVO" type="com.gsitm.netShared.mybatis.type.BoardVO"/>
-        <typeAlias alias="LeaderVO" type="com.gsitm.netShared.mybatis.type.LeaderVO"/>
-        <typeAlias alias="MatchingVO" type="com.gsitm.netShared.mybatis.type.MatchingVO"/>
-        <typeAlias alias="MemberVO" type="com.gsitm.netShared.mybatis.type.MemberVO"/>
-        <typeAlias alias="ReplyVO" type="com.gsitm.netShared.mybatis.type.ReplyVO"/>
-        <typeAlias alias="UserVO" type="com.gsitm.netShared.mybatis.type.UserVO"/>
+        <typeAlias alias="BoardVO" type="com.gsitm.netShared.dto.BoardVO"/>
+        <typeAlias alias="LeaderVO" type="com.gsitm.netShared.dto.LeaderVO"/>
+        <typeAlias alias="MatchingVO" type="com.gsitm.netShared.dto.MatchingVO"/>
+        <typeAlias alias="MemberVO" type="com.gsitm.netShared.dto.MemberVO"/>
+        <typeAlias alias="ReplyVO" type="com.gsitm.netShared.dto.ReplyVO"/>
+        <typeAlias alias="UserVO" type="com.gsitm.netShared.dto.UserVO"/>
     </typeAliases>
 
     <typeHandlers>

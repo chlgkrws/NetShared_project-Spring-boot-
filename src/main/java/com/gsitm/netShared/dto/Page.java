@@ -1,4 +1,4 @@
-package com.it1457.vo;
+package com.gsitm.netShared.dto;
 
 public class Page {
 	// 현재 페이지 번호
@@ -35,7 +35,7 @@ public class Page {
 
 	public void setCount(int count) {
 		this.count = count;
-		
+
 		dataCalc();
 	}
 

@@ -1,4 +1,4 @@
-package com.it1457.vo;
+package com.gsitm.netShared.dto;
 
 public class ReplyVO {
 

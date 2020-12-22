@@ -8,18 +8,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import com.it1457.vo.LeaderVO;
-import com.it1457.vo.MatchingVO;
-import com.it1457.vo.MemberVO;
+import com.gsitm.netShared.dto.LeaderVO;
+import com.gsitm.netShared.dto.MatchingVO;
+import com.gsitm.netShared.dto.MemberVO;
 
-public class MatchingDAO {
+public class MatchingMapper {
 
-	private static MatchingDAO dao = new MatchingDAO();
+	private static MatchingMapper dao = new MatchingMapper();
 
-	private MatchingDAO() {
+	private MatchingMapper() {
 	}
 
-	public static MatchingDAO getInstance() {
+	public static MatchingMapper getInstance() {
 		return dao;
 	}
 

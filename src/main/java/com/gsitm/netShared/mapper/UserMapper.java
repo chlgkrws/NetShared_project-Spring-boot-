@@ -6,15 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 
-import com.it1457.vo.UserVO;
+import com.gsitm.netShared.dto.UserVO;
 
-public class UserDAO {
-	private static UserDAO dao = new UserDAO();
+public class UserMapper {
+	private static UserMapper dao = new UserMapper();
 
-	private UserDAO() {
+	private UserMapper() {
 	}
 
-	public static UserDAO getInstance() {
+	public static UserMapper getInstance() {
 		return dao;
 	}
 
@@ -89,7 +89,7 @@ public class UserDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		UserVO userVO = null;
-		
+
 		try {
 			conn = connect();
 			pstmt = conn.prepareStatement("select * from user_tbl where user_id=?");
@@ -114,13 +114,13 @@ public class UserDAO {
 
 		return userVO;
 	}
-	
+
 	//개인정보 수정
 	public int updateUserInfo(UserVO userVO) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-		
+
 		try {
 			conn = connect();
 			pstmt = conn.prepareStatement("Update user_tbl set password = ?, phone = ?, account = ?, update_time = ? where user_id = ?");
@@ -142,7 +142,7 @@ public class UserDAO {
 	public int withdrawUser(String userId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			conn = connect();
 			pstmt = conn.prepareStatement("Update `it1457`.`user_tbl` set wouldUYN = ? where user_id = ?");

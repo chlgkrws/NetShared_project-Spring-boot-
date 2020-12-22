@@ -1,4 +1,6 @@
-package com.it1457.vo;
+package com.gsitm.netShared.dto;
+
+import lombok.Data;
 
 /*
 CREATE TABLE `board_tbl` (
@@ -19,6 +21,7 @@ CREATE TABLE `board_tbl` (
 		) ENGINE=InnoDB AUTO_INCREMENT=32795 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 */
+@Data
 public class UserVO {
 	private String id;
 	private String password;
@@ -30,69 +33,5 @@ public class UserVO {
 	private String createdTime;
 	private String updateTime;
 	private boolean wouldUYN;
-	
 
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getIdentity() {
-		return identity;
-	}
-	public void setIdentity(String identity) {
-		this.identity = identity;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getAccount() {
-		return account;
-	}
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public String getAuth() {
-		return auth;
-	}
-	public void setAuth(String auth) {
-		this.auth = auth;
-	}
-	public boolean isWouldUYN() {
-		return wouldUYN;
-	}
-	public void setWouldUYN(boolean wouldUYN) {
-		this.wouldUYN = wouldUYN;
-	}
-	public String getCreatedTime() {
-		return createdTime;
-	}
-	public void setCreatedTime(String createdTime) {
-		this.createdTime = createdTime;
-	}
-	public String getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	
-	
 }

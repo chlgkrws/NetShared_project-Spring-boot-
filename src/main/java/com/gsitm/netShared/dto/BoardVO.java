@@ -1,5 +1,6 @@
-package com.it1457.vo;
+package com.gsitm.netShared.dto;
 
+import lombok.Data;
 
 /*CREATE TABLE `board_tbl` (
 		  `board_id` int(20) NOT NULL AUTO_INCREMENT,
@@ -19,6 +20,7 @@ package com.it1457.vo;
 		) ENGINE=InnoDB AUTO_INCREMENT=32795 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 */
+@Data
 public class BoardVO {
 	private String userId;
 	private int	boardId;
@@ -31,75 +33,6 @@ public class BoardVO {
 	private String genre;
 	private boolean valid;
 	private String updateTime;
-	
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public int getBoardId() {
-		return boardId;
-	}
-	public void setBoardId(int boardId) {
-		this.boardId = boardId;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getCreatedTime() {
-		return createdTime;
-	}
-	public void setCreatedTime(String createdTime) {
-		this.createdTime = createdTime;
-	}
-	public int getRecommend() {
-		return recommend;
-	}
-	public void setRecommend(int recommend) {
-		this.recommend = recommend;
-	}
-	public int getStarRate() {
-		return starRate;
-	}
-	public void setStarRate(int starRate) {
-		this.starRate = starRate;
-	}
-	public String getGenre() {
-		return genre;
-	}
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-	public boolean isValid() {
-		return valid;
-	}
-	public void setValid(boolean valid) {
-		this.valid = valid;
-	}
-	public String getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
-	
-	
-	
+
+
 }

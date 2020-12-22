@@ -7,16 +7,16 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.it1457.vo.BoardVO;
+import com.gsitm.netShared.dto.BoardVO;
 
-public class BoardDAO {
+public class BoardMapper {
 
-	private static BoardDAO dao = new BoardDAO();
+	private static BoardMapper dao = new BoardMapper();
 
-	private BoardDAO() {
+	private BoardMapper() {
 	}
 
-	public static BoardDAO getInstance() {
+	public static BoardMapper getInstance() {
 		return dao;
 	}
 
