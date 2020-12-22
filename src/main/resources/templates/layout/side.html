@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar menu-light " th:fragment="sideFragment">
+    <div class="navbar-wrapper  ">
+        <div class="navbar-content scroll-div " >
+
+            <ul class="nav pcoded-inner-navbar" id="sideMenu">
+                <li class="nav-item pcoded-menu-caption">
+                    <label id="menuLabel"></label>
+                </li>
+<!--                <li class="nav-item pcoded-hasmenu">-->
+<!--                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">System</span></a>-->
+<!--                    <ul class="pcoded-submenu">-->
+<!--&lt;!&ndash;                     	<li><a th:href="${@environment.getProperty('ustra.card.service.system')}/systemmaster/view" onclick="location.href='/systemmaster/view';" target="_blank">System</a></li> &ndash;&gt;-->
+<!--                        <li><a th:href="${@environment.getProperty('ustra.card.service.system')}+'/systemmaster/view'">System</a></li>-->
+<!--                        <li><a th:href="${@environment.getProperty('ustra.card.service.system')}+'/systemmenu/view'">System Menu</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item pcoded-hasmenu">-->
+<!--                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Menu</span></a>-->
+<!--                    <ul class="pcoded-submenu">-->
+<!--                    	<li><a th:href="${@environment.getProperty('ustra.card.service.system')}+'/menumanagement/view'">Menu Master</a></li>-->
+<!--                    	<li><a th:href="${@environment.getProperty('ustra.card.service.system')}+'/role/view'">Menu Role</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                	<a th:href="${@environment.getProperty('ustra.card.service.system')}+'/codemanagement/view'" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Code </span></a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                	<a th:href="${@environment.getProperty('ustra.card.service.system')}+'/label/view'" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Label </span></a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                	<a th:href="${@environment.getProperty('ustra.card.service.system')}+'/message/view'" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Message </span></a>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+    <script type="application/javascript">
+
+        var _rootId = null;
+        var _currentMenu = null;
+
+        function createMenu() {
+            $.get('/api/menus/side', function(menu) {
+                $('#menuLabel').html(menu.menuName);
+                _rootId = menu.menuId;
+                var map = getMenuMap(menu.menuList);
+                var menuTemplate = getMenuTemplate(map);
+                $('#sideMenu').append(menuTemplate);
+
+
+                $("#pcoded").pcodedmenu({
+                    MenuTrigger: 'click',
+                    SubMenuTrigger: 'click',
+                });
+                $('#menu-'+_currentMenu.menuId).parents('.pcoded-hasmenu').each(function() {
+                    $(this).click();;
+                });
+            });
+        }
+
+        function getMenuMap(menus) {
+            var menuMap = {};
+            for (var idx in menus) {
+                var menu = menus[idx];
+                if (!menu.parentMenuId) {
+                    if (!menuMap[_rootId]) {
+                        menuMap[_rootId] = [];
+                    }
+                    menuMap[_rootId].push(menu);
+                    continue;
+                }
+                if (!menuMap[menu.parentMenuId]) {
+                    menuMap[menu.parentMenuId] = [];
+                }
+                menuMap[menu.parentMenuId].push(menu);
+
+            }
+            return menuMap;
+        }
+
+        function getMenuTemplate(menuMap) {
+            var root = menuMap[_rootId];
+            if (root instanceof Array) {
+                var template = '';
+                for (var idx in root) {
+                    var menu = root[idx];
+                    template += getMenuTreeTemplate(menu, menuMap);
+                }
+                return template;
+
+            }
+            return getMenuTreeTemplate(root, menuMap);
+        }
+
+        function getMenuTreeTemplate(menu, menuMap) {
+            var template = '';
+            if (menu.url) {
+                template += '<li class="nav-item';
+                if (menu.open) {
+                    template +=' active';
+                    _currentMenu = menu;
+                    $('#navHeader').html('<a href="'+menu.url+'">'+menu.menuName+'</a>');
+                }
+                template += ' id="menu-'+menu.menuId+'"';
+                template +='">';
+
+                template += getRootTemplate(menu.url, menu.menuName);
+                template += '</li>';
+                return template;
+            }
+            template += '<li';
+            template += ' id="menu-'+menu.menuId+'"';
+            template += ' class="nav-item pcoded-hasmenu">';
+            template += getRootTemplate('#!', menu.menuName);
+            template += '<ul id="child-'+menu.menuId+'" class="pcoded-submenu">';
+            var child = menuMap[menu.menuId];
+            if (!child) {
+                return template;
+            }
+            template += getChildTemplate (child);
+
+            template += '</ul></li>';
+            return template;
+        }
+
+        function getChildTemplate(child) {
+            var template = '';
+            if (child instanceof Array) {
+                for (var cidx in child) {
+                    var childMenu = child[cidx];
+                    template += '<li';
+                    template += ' id="menu-'+childMenu.menuId+'"';
+                    if (childMenu.open) {
+                        template +=' class="active"';
+                        _currentMenu = childMenu;
+                        $('#navHeader').html('<a href="'+childMenu.url+'">'+childMenu.menuName+'</a>');
+                    }
+                    template += '><a href="'+childMenu.url+'">';
+                    template += childMenu.menuName;
+                    template += '</a></li>';
+                }
+                return template;
+            }
+            template += '<li';
+            template += ' id="menu-'+child.menuId+'"';
+            if (child.open) {
+                template +=' class="active"';
+                _currentMenu = child;
+                $('#navHeader').html('<a href="'+child.url+'">'+child.menuName+'</a>');
+            }
+            template += '><a href="'+child.url+'">';
+            template += child.menuName;
+            template += '</a></li>';
+            return template;
+        }
+
+        function getRootTemplate(url, name) {
+            var template = '<a href="'+url+'" class="nav-link ">';
+            template += '<span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">';
+            template += name;
+            template += '</span></a>';
+            return template;
+        }
+
+        $(document).ready(function() {
+            createMenu();
+        });
+    </script>
+</nav>
+<!-- [ navigation menu ] end -->
+
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="defaultStatementTimeout" value="25"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="CamelCaseMap" type="com.gsitm.netShared.mybatis.type.CamelCaseMap"/>
+        <typeAlias alias="BoardVO" type="com.gsitm.netShared.mybatis.type.BoardVO"/>
+        <typeAlias alias="LeaderVO" type="com.gsitm.netShared.mybatis.type.LeaderVO"/>
+        <typeAlias alias="MatchingVO" type="com.gsitm.netShared.mybatis.type.MatchingVO"/>
+        <typeAlias alias="MemberVO" type="com.gsitm.netShared.mybatis.type.MemberVO"/>
+        <typeAlias alias="ReplyVO" type="com.gsitm.netShared.mybatis.type.ReplyVO"/>
+        <typeAlias alias="UserVO" type="com.gsitm.netShared.mybatis.type.UserVO"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.gsitm.netShared.mybatis.type.BooleanNullableTypeHandler" javaType="java.lang.Boolean"/>
+    </typeHandlers>
+
+</configuration>
