@@ -1,22 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <!-- [ Header ] start -->
-    <header class="navbar navbar-header navbar-header-fixed" th:fragment="headerFragment">
-      <a href="" id="mainMenuOpen" class="burger-menu"><i data-feather="menu"></i></a>
-      <div class="navbar-brand">
-        <a href="/" class="df-logo"><img width="130px" src="/assets/img/gsitm_logo.png"/></a>
-      </div><!-- navbar-brand -->
-      <div id="navbarMenu" class="navbar-menu-wrapper">
-        <div class="navbar-menu-header">
-          <a href="/" class="df-logo"><img width="130px" src="/assets/img/gsitm_logo.png"/></a>
-          <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
-        </div><!-- navbar-menu-header -->
-        <ul class="nav navbar-menu">
-          <li class="nav-item"><a href="../../components/" class="nav-link"><i data-feather="box"></i> Components</a></li>
-          <li class="nav-item"><a href="../../collections/" class="nav-link"><i data-feather="archive"></i> Collections</a></li>
-        </ul>
-      </div><!-- navbar-menu-wrapper -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+  <body>
+    <div layout:fragment="header">
+            <!-- [ Header ] start -->
+    <header style="margin-bottom: 80px;">
+        <div id="header">
+            <!-- NetShared -->
+            <div id="logo" style="float: left; width: 33%; line-height: 80px;">
+                <div>
+                    <a href="/" style="float: left; margin-left: 10%;">NetShared</a>
+                </div>
+                <!-- style="float:left; width: 10%; line-height: 80px;" -->
+            </div>
+
+            <!-- 소개 커뮤니티 빠른 매칭 -->
+            <div id="contents"
+                style="float: left; width: 33%; line-height: 80px;">
+                <div>
+                    <a href="/intro"
+                        style="float: left; width: 33%; line-height: 80px;">소개</a>
+                </div>
+                <div>
+                    <a href="/board/list?num=1"
+                        style="float: left; width: 33%; line-height: 80px;">커뮤니티</a>
+                </div>
+                <div>
+                    <a href="/views/matching/matching.jsp"
+                        style="float: left; width: 33%; line-height: 80px;">빠른매칭</a>
+                </div>
+            </div>
+
+            <!-- 로그인, 로그아웃, 마이페이지 -->
+
+            <div th:if="${session.id == null}" id="login" style="float: right; width: 33%; line-height: 80px;">
+                <div>
+                    <a href="/views/login/login.jsp"
+                        style="font-size: 15px; float: right; margin-right: 10%;">로그인</a>
+                </div>
+            </div>
+
+            <div th:if="${session.id != null}" id="login" style="float: right; width: 33%; line-height: 80px;">
+                <div>
+                    <a href="/views/login/logout.jsp" id="logout"
+                        style="font-size: 10px; float: right; margin-right: 15px;">로그아웃</a>
+                    <a href="/mypage"><img src="/assets/img/myPage.png"
+                        style="width: 60px; float: right; margin-right: 2%; margin-top: 18px;"></a>
+                    <a style="font-size: 15px; float: right; margin-right: 15px;"><span th:text="${session.username }"></span>님
+                        안녕하세요 </a>
+
+
+                </div>
+            </div>
+        </div>
     </header>
 
-
+    </div>
+  </body>
 </html>

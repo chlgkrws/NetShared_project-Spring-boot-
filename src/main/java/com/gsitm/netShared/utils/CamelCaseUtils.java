@@ -1,10 +1,10 @@
-package com.gsitm.netShared.utils;
+package com.gsitm.netshared.utils;
 
 import java.lang.reflect.Field;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.gsitm.netShared.mybatis.type.CamelCaseMap;
+import com.gsitm.netshared.mybatis.type.CamelCaseMap;
 
 /**
  * <pre>

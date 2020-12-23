@@ -1,4 +1,4 @@
-package com.gsitm.netShared.mybatis.type;
+package com.gsitm.netshared.mybatis.type;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import com.gsitm.netShared.utils.CamelCaseUtils;
+import com.gsitm.netshared.utils.CamelCaseUtils;
 
 @SuppressWarnings("serial")
 public class CamelCaseMap extends HashMap<String, Object> {

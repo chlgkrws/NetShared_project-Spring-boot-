@@ -1,13 +1,13 @@
-package com.gsitm.netShared.service;
+package com.gsitm.netshared.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gsitm.netShared.dto.UserVO;
-import com.gsitm.netShared.mapper.UserMapper;
+import com.gsitm.netshared.dto.UserVO;
+import com.gsitm.netshared.mapper.UserMapper;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
 
 	@Autowired

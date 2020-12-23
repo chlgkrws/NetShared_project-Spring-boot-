@@ -1,0 +1,122 @@
+div#normal_matching_container {
+	display: inline-block;
+	width: 80%;
+}
+
+div#matching_count {
+	width: 80%;
+	display: inline-block;
+	height: 100px;
+	background-color: rgb(248, 248, 248);
+	border-radius: 2em;
+	border-top-left-radius: 2em;
+	border-top-right-radius: 2em;
+	border-bottom-left-radius: 2em;
+	border-bottom-right-radius: 2em;
+	text-align: center;
+}
+
+div#matching_area {
+	width: 80%;
+	display: inline-block;
+	background-color: #ffffff;
+	border-radius: 2em;
+	border-top-left-radius: 2em;
+	border-top-right-radius: 2em;
+	border-bottom-left-radius: 2em;
+	border-bottom-right-radius: 2em;
+	box-shadow: 10px 10px 10px 10px rgb(212, 212, 212);
+}
+
+div#in_matching_area {
+	width: 80%;
+	display: inline-block;
+	height: 560px;
+}
+
+div#match {
+	width: 80%;
+	display: inline-block;
+}
+
+div#matching_price_info {
+	background-color: rgb(248, 248, 248);
+	height: 60px;
+	width: 60%;
+	margin-top: 30px;
+	display: inline-block;
+	border-radius: 2em;
+	border-top-left-radius: 2em;
+	border-top-right-radius: 2em;
+	border-bottom-left-radius: 2em;
+	border-bottom-right-radius: 2em;
+}
+
+div#matching_price_info p {
+	margin: 0px;
+	color: rgb(77, 77, 77);
+}
+
+.matching_left {
+	width: 50%;
+	height: 75px;
+	float: left;
+	box-sizing: border-box;
+}
+
+.matching_right {
+	width: 50%;
+	height: 75px;
+	float: right;
+	box-sizing: border-box;
+}
+
+.matching_button {
+	border-radius: 1em;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	background-color: white;
+	font-size: 15px;
+	font-weight: 600;
+	outline: none;
+	color: rgb(100, 100, 100);
+}
+
+.match_click {
+	border-radius: 1em;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	border-color: whitesmoke;
+	background-color: rgb(83, 227, 172);
+	color: white;
+	font-size: 15px;
+	font-weight: 600;
+	width: 90%;
+	height: 45px;
+	outline: none;
+}
+
+#numberOfMember {
+	text-align: center;
+	padding-left: 0px;
+	margin: 0px;
+	display: none;
+}
+
+#numberOfMember li {
+	display: inline-block;
+}
+
+#numberOfMember li button {
+	border-radius: 1em;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	background-color: white;
+	outline: none;
+}

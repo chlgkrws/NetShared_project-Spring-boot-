@@ -1,4 +1,4 @@
-package com.gsitm.netShared.web;
+package com.gsitm.netshared.web;
 
 import java.util.ArrayList;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gsitm.netShared.dto.BoardVO;
-import com.gsitm.netShared.dto.Page;
-import com.gsitm.netShared.service.BoardService;
+import com.gsitm.netshared.dto.BoardVO;
+import com.gsitm.netshared.dto.Page;
+import com.gsitm.netshared.service.BoardService;
 
 @Controller
 @RequestMapping("/board")
@@ -40,24 +40,23 @@ public class BoardController {
 
 		modelAndView.addObject("board", boardVO);
 		modelAndView.addObject("star", starRate);
-		modelAndView.setViewName("0000/post");
+		modelAndView.setViewName("board/post");
 		return modelAndView;
 	}
 
 	// 게시물 리스트
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam Integer num, @RequestParam String userid) {
+			@RequestParam Integer num, @RequestParam(required = false) String userid) {
 		// userid -> userId로 바꾸기! $$$$$$$
 		String userId = userid;
-
 		Page page = new Page();
 		page.setNum(num);
 		page.setCount(boardService.getBoardCount());
 
 		ArrayList<BoardVO> list;
 		if (userId == null) {
-			list = boardService.getBoardList(page.getDisplayPost(), page.getPostNum()); // 전체보기
+			list = boardService.getBoardList(page.getDisplayPost(), page.getPostNum(), null); // 전체보기
 			modelAndView.addObject("unCheck", true);
 			modelAndView.addObject("check", false);
 		} else {
@@ -66,10 +65,11 @@ public class BoardController {
 			modelAndView.addObject("unCheck", false);
 		}
 
+		modelAndView.addObject("board", new BoardVO());
 		modelAndView.addObject("list", list);
 		modelAndView.addObject("select", num);
 		modelAndView.addObject("page", page);
-		modelAndView.setViewName("0000/community");
+		modelAndView.setViewName("board/community");
 		return modelAndView;
 	}
 
@@ -89,12 +89,11 @@ public class BoardController {
 	public ModelAndView write(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam String title, @RequestParam String star, @RequestParam String genre,
 			@RequestParam Integer boardId, @RequestParam String modal_content, @RequestParam String id,
-			@RequestParam String username) {
+			@RequestParam String username, ) {
 		// 파라미터 명 수정
 
 		// 글쓰기인지 수정인지 체크
 		boolean isModify = request.getParameter("valid").equals("true") ? true : false;
-
 		int starRate = Integer.parseInt(star);
 		BoardVO boardVO = new BoardVO(); // BoardVO에 파라미터로 받은 데이터를 넣어줌
 		boardVO.setUserId(id);
@@ -116,4 +115,6 @@ public class BoardController {
 		modelAndView.setViewName("redirect:/board/list?num=1");
 		return modelAndView;
 	}
+
+
 }

@@ -9,13 +9,28 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
       <!-- Favicon -->
-      <link rel="shortcut icon" type="image/x-icon" href="/assets/img/gs_icon.png">
+      <!-- <link rel="shortcut icon" type="image/x-icon" href="/assets/img/gs_icon.png"> -->
 
       <title>CareerSystem</title>
 
-      <!-- DashForge CSS -->
-      <link rel="stylesheet" href="/assets/css/dashforge.css">
-      <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css">
+      <!-- basic thymeleaf -->
+        <!--
+            <th:block th:text="${session.user }"></th:block>
+            <th:block th:if="${session.id != null}">
+            <script th:inline="javascript">
+            <div th:replace="layout/modal :: div"></div>
+            <th:block th:with="start=${page.startPageNum} , end=${page.endPageNum}">
+            <a th:href="@{/board/list(num=${page.startPageNum -1})}">
+         -->
+
+      <!-- custom CSS -->
+        <link rel="stylesheet" href="/assets/css/home.home.css">
+        <link rel="stylesheet" href="/assets/css/home.my_page.css">
+        <link rel="stylesheet" href="/assets/css/intro.intro.css">
+        <link rel="stylesheet" href="/assets/css/board.community.css">
+        <link rel="stylesheet" href="/assets/css/board.post.css">
+        <link rel="stylesheet" href="/assets/css/board.intro.css">
+
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     </head>

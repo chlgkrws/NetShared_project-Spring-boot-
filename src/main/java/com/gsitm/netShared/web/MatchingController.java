@@ -1,10 +1,10 @@
-package com.gsitm.netShared.web;
+package com.gsitm.netshared.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gsitm.netShared.service.MatchingService;
+import com.gsitm.netshared.service.MatchingService;
 
 @Controller
 @RequestMapping("/matching")

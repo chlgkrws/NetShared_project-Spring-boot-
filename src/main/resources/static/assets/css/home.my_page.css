@@ -1,0 +1,25 @@
+div#my_page_container{
+    display: inline-block;
+    width: 70%;
+    height: 700px;
+    text-align: center;
+    padding-top: 80px;
+}
+
+div#my_page_content{
+    height: 210px;
+    width: 50%;
+    display: inline-block;
+}
+
+div.my_page_left{
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+}
+
+div.my_page_right{
+    width: 50%;
+    float: right;
+    box-sizing: border-box;
+}

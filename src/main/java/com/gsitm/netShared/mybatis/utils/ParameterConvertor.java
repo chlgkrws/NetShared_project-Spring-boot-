@@ -1,4 +1,4 @@
-package com.gsitm.netShared.mybatis.utils;
+package com.gsitm.netshared.mybatis.utils;
 
 import java.util.Map;
 

@@ -10,17 +10,17 @@
     </settings>
 
     <typeAliases>
-        <typeAlias alias="CamelCaseMap" type="com.gsitm.netShared.mybatis.type.CamelCaseMap"/>
-        <typeAlias alias="BoardVO" type="com.gsitm.netShared.dto.BoardVO"/>
-        <typeAlias alias="LeaderVO" type="com.gsitm.netShared.dto.LeaderVO"/>
-        <typeAlias alias="MatchingVO" type="com.gsitm.netShared.dto.MatchingVO"/>
-        <typeAlias alias="MemberVO" type="com.gsitm.netShared.dto.MemberVO"/>
-        <typeAlias alias="ReplyVO" type="com.gsitm.netShared.dto.ReplyVO"/>
-        <typeAlias alias="UserVO" type="com.gsitm.netShared.dto.UserVO"/>
+        <typeAlias alias="CamelCaseMap" type="com.gsitm.netshared.mybatis.type.CamelCaseMap"/>
+        <typeAlias alias="BoardVO" type="com.gsitm.netshared.dto.BoardVO"/>
+        <typeAlias alias="LeaderVO" type="com.gsitm.netshared.dto.LeaderVO"/>
+        <typeAlias alias="MatchingVO" type="com.gsitm.netshared.dto.MatchingVO"/>
+        <typeAlias alias="MemberVO" type="com.gsitm.netshared.dto.MemberVO"/>
+        <typeAlias alias="ReplyVO" type="com.gsitm.netshared.dto.ReplyVO"/>
+        <typeAlias alias="UserVO" type="com.gsitm.netshared.dto.UserVO"/>
     </typeAliases>
 
     <typeHandlers>
-        <typeHandler handler="com.gsitm.netShared.mybatis.type.BooleanNullableTypeHandler" javaType="java.lang.Boolean"/>
+        <typeHandler handler="com.gsitm.netshared.mybatis.type.BooleanNullableTypeHandler" javaType="java.lang.Boolean"/>
     </typeHandlers>
 
 </configuration>

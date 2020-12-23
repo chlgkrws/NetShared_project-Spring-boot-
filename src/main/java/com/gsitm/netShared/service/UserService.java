@@ -1,4 +1,4 @@
-package com.gsitm.netShared.service;
+package com.gsitm.netshared.service;
 
 import org.springframework.stereotype.Service;
 

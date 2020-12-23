@@ -1,0 +1,43 @@
+div#quick_matching_wrap{
+    display: inline-block;
+    width: 60%;
+}
+
+.party_leader{
+    border-radius: 1em;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    width: 70%;
+    background-color: rgb(247, 247, 247); 
+    height: 70px; 
+    margin-top: 30px; 
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+.party_leader p{
+    margin: 0px;
+    font-size: 18px;
+    margin-bottom: 5px;
+    line-height: 35px;
+    color: rgb(75, 75, 75);
+}
+
+#go_home{
+    border-radius: 1em;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    border-color: whitesmoke;
+    background-color: rgb(83, 227, 172);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    width: 80%;
+    height: 45px;
+    outline: none;
+}

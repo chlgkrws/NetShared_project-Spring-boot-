@@ -1,4 +1,4 @@
-package com.gsitm.netShared.mybatis.type;
+package com.gsitm.netshared.mybatis.type;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

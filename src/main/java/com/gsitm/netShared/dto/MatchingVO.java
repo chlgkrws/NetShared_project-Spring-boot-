@@ -1,4 +1,4 @@
-package com.gsitm.netShared.dto;
+package com.gsitm.netshared.dto;
 
 import java.sql.Timestamp;
 

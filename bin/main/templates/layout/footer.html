@@ -1,20 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <!-- footer content -->
-    <footer th:fragment="footerFragment" class="footer">
-      <div>
-        <span>&copy; 2019 DashForge v1.0.0. </span>
-        <span>Created by <a href="http://themepixels.me">ThemePixels</a></span>
-      </div>
-      <div>
-        <nav class="nav">
-          <a href="https://themeforest.net/licenses/standard" class="nav-link">Licenses</a>
-          <a href="../../change-log.html" class="nav-link">Change Log</a>
-          <a href="https://discordapp.com/invite/RYqkVuw" class="nav-link">Get Help</a>
-        </nav>
-      </div>
-      <script src="/assets/js/dashforge.js"></script>
-      <script src="/assets/js/dashboard-one.js"></script>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+  <body>
+    <div layout:fragment="footer">
+            <!-- 메인화면의 푸터 -->
+    <footer>
+        <div id="footer">
+            <div style="display: block; margin-bottom: 40px; text-align: center;">
+                <img src="/assets/img/up.png" onclick="location.href='#'"
+                    style="width: 30px;" /> <a href="#"><p>맨 위로 가기</p></a>
+            </div>
+            <div class="footer_info">
+                <div class="footer_sub_div">
+                    <p>NetShared</p>
+                </div>
+                <div class="footer_div"></div>
+                <div class="footer_sub_div">
+                    <p>대표 최학준</p>
+                </div>
+                <div class="footer_div"></div>
+                <div class="footer_sub_div">
+                    <p>사업자 등록번호 000-00-0000</p>
+                </div>
+                <div class="footer_div"></div>
+                <div class="footer_sub_div">
+                    <p>비즈니스 문의 cgw981@gsitm.com</p>
+                </div>
+                <div class="footer_div"></div>
+                <div class="footer_sub_div">
+                    <p>02-2898-9819</p>
+                </div>
+            </div>
+            <div class="footer_info">
+                <div>
+                    <p>주소 대전광역시 서구 도마동 215, 116동 908호</p>
+                </div>
+            </div>
+        </div>
     </footer>
-    <!-- /footer content -->
+    </div>
+  </body>
 </html>

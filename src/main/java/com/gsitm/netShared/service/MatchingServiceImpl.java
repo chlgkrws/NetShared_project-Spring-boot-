@@ -1,18 +1,18 @@
-package com.gsitm.netShared.service;
+package com.gsitm.netshared.service;
 
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gsitm.netShared.dto.LeaderVO;
-import com.gsitm.netShared.dto.MatchingVO;
-import com.gsitm.netShared.dto.MemberVO;
-import com.gsitm.netShared.mapper.MatchingMapper;
+import com.gsitm.netshared.dto.LeaderVO;
+import com.gsitm.netshared.dto.MatchingVO;
+import com.gsitm.netshared.dto.MemberVO;
+import com.gsitm.netshared.mapper.MatchingMapper;
 
 
 @Service
-public class MatchingServiceImpl {
+public class MatchingServiceImpl implements MatchingService{
 
 	@Autowired
 	public MatchingMapper matchingMapper;

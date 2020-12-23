@@ -1,10 +1,10 @@
-package com.gsitm.netShared.service;
+package com.gsitm.netshared.service;
 
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
-import com.gsitm.netShared.dto.BoardVO;
+import com.gsitm.netshared.dto.BoardVO;
 
 @Service
 public interface BoardService {
