@@ -8,57 +8,71 @@
         INSERT INTO board_tbl
             (user_id, writer, title, content, genre, star_rate)
         VALUES
-            (#{userId},#{writer}, #{title}, #{content}, #{genre}, #{starRate})
+            (#{boardVO.userId},#{boardVO.writer}, #{boardVO.title}, #{boardVO.content}, #{boardVO.genre}, #{boardVO.starRate})
     </insert>
 
     <!-- 페이지를 위한 게시물 갯수 카운트 -->
     <select id="getBoardCount" resultType="int">
-            SELECT count(board_id)
-              FROM board_tbl
+        SELECT count(board_id)
+          FROM board_tbl
     </select>
 
     <!-- 글 리스트 조회 -->
     <select id="getBoardList" resultType="BoardVO">
-            SELECT *
-              FROM board_tbl
-        <if test='userId != null'>
-             WHERE user_id = #{userId}
-        </if>
-          ORDER BY board_id DESC
-             LIMIT #{displayPost}, #{postNum}
+        SELECT *
+          FROM board_tbl
+    <if test='userId != null'>
+         WHERE user_id = #{userId}
+    </if>
+      ORDER BY board_id DESC
+         LIMIT #{displayPost}, #{postNum}
     </select>
-<!--     // 글 수정
-    public void boardUpdate(BoardVO boardVO);
 
+    <select id="getView" resultType="BoardVO">
+        SELECT *
+          FROM board_tbl
+         WHERE board_id = #{boardId}
+    </select>
 
-    // 글 삭제
-    public void boardDelete(int boardId);
+    <delete id="boardDelete">
+        DELETE FROM board_tbl
+              WHERE board_id = #{boardId}
+    </delete>
 
-    // 글 리스트 조회
-    public ArrayList<BoardVO> getBoardList(int displayPost, int postNum);
+    <update id="boardUpdate">
+        UPDATE board_tbl
+           SET title = #{boardVO.title}, content = #{boardVO.content}, genre = #{boardVO.genre}, star_rate = #{boardVO.starRate}
+         WHERE board_id = #{boardVO.boardId}
+    </update>
 
-    // 글 리스트 조회(내글보기 다형성)
-    public ArrayList<BoardVO> getBoardList(int displayPost, int postNum, String userId);
+    <select id="checkLike" resultType="int">
+        SELECT count(*)
+          FROM board_like_tbl
+         WHERE board_id = #{boardId} and liked_user_id = #{userId}
+    </select>
 
-    // 글 상세보기
-    public BoardVO getView(int boardId);
+    <insert id="insertLikedUser">
+        INSERT
+          INTO board_like_tbl
+        VALUES (#{boardId}, #{userId})
+    </insert>
 
-    // 페이지를 위한 게시물 갯수 카운트(내글보기
-    public int getBoardCount(String userId);
+    <delete id="deleteLikedUser">
+        DELETE
+          FROM board_like_tbl
+         WHERE board_id = #{boardId} and liked_user_id = #{userId}
+    </delete>
 
-    // 추천한 계정 찾기
-    public int checkLike(int boardId, String userId);
+    <update id="updateLike">
+        UPDATE board_tbl
+           SET recommend = recommend + 1
+         WHERE board_id = #{boardId}
+    </update>
 
-    // 추천한 계정 추가
-    public void insertLikedUser(int boardId, String userId);
-
-    // 추천한 계정 삭제
-    public void deleteLikedUser(int boardId, String userId);
-
-    // 추천수 증가
-    public void updateLike(int boardId);
-
-    // 추천수 감소
-    public void updateLikeDown(int boardId); -->
+    <update id="updateLikeDown">
+        UPDATE board_tbl
+           SET recommend = recommend - 1
+         WHERE board_id = #{boardId}
+    </update>
 
 </mapper>

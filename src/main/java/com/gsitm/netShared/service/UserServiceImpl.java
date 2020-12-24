@@ -20,7 +20,12 @@ public class UserServiceImpl implements UserService {
 
 	//로그인
 	public UserVO userSearch(String id) {
-		UserVO user = userMapper.userSearch(id);
+		UserVO user = null;
+		try {
+			user = userMapper.userSearch(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return user;
 	}
 
@@ -33,5 +38,7 @@ public class UserServiceImpl implements UserService {
 	public int withdrawUser(String userId) {
 		return userMapper.withdrawUser(userId);
 	}
+
+
 
 }

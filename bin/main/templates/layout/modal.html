@@ -51,10 +51,10 @@
                     </div>
                     <div>
                         <input type="hidden" name="id" th:value="${session.id }"> <input
-                            type="hidden" name="username" th:value="${session_name }"> <input
+                            type="hidden" name="username" th:value="${session.username }"> <input
                             type="hidden" name="valid" th:value="${board.valid }" /> <input
                             type="hidden" name="boardId" th:value="${board.boardId }" /> <input
-                            type="hidden" name="boardId" th:value="${board.writer }" />
+                            type="hidden" name="writer" th:value="${board.writer }" />
                         <button type="submit" class="modal_write_btn">작성</button>
                         <button type="button" class="modal_cancel">취소</button>
                     </div>

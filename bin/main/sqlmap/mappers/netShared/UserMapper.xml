@@ -2,5 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gsitm.netshared.mapper.UserMapper">
 
+    <select id="userSearch" resultType="UserVO">
+        SELECT *
+          FROM user_tbl
+         WHERE user_id= #{id}
+    </select>
+
+    <update id="updateUserInfo">
+        UPDATE user_tbl
+           SET password = #{userVO.password}, phone = #{userVO.phone}, account = #{userVO.account}, update_time = #{userVO.updateTime}
+         WHERE user_id = #{userVO.userId}
+    </update>
+
+    <update id="withdrawUser">
+        UPDATE user_tbl
+           SET wouldUYN = false
+         WHERE user_id = #{userId}
+    </update>
+
+    <insert id="userInsert">
+        INSERT INTO user_tbl (user_id, password, username, identity, phone, account, wouldUYN)
+             VALUES (#{userVO.userId}, #{userVO.password}, #{userVO.userName},#{userVO.identity},#{userVO.phone},#{userVO.account}, 1)
+    </insert>
 
 </mapper>

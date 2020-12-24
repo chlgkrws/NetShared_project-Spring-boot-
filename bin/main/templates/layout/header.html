@@ -27,7 +27,7 @@
                         style="float: left; width: 33%; line-height: 80px;">커뮤니티</a>
                 </div>
                 <div>
-                    <a href="/views/matching/matching.jsp"
+                    <a href="/matching/quick"
                         style="float: left; width: 33%; line-height: 80px;">빠른매칭</a>
                 </div>
             </div>
@@ -36,14 +36,14 @@
 
             <div th:if="${session.id == null}" id="login" style="float: right; width: 33%; line-height: 80px;">
                 <div>
-                    <a href="/views/login/login.jsp"
+                    <a href="/user/view"
                         style="font-size: 15px; float: right; margin-right: 10%;">로그인</a>
                 </div>
             </div>
 
             <div th:if="${session.id != null}" id="login" style="float: right; width: 33%; line-height: 80px;">
                 <div>
-                    <a href="/views/login/logout.jsp" id="logout"
+                    <a href="/user/logout" id="logout"
                         style="font-size: 10px; float: right; margin-right: 15px;">로그아웃</a>
                     <a href="/mypage"><img src="/assets/img/myPage.png"
                         style="width: 60px; float: right; margin-right: 2%; margin-top: 18px;"></a>

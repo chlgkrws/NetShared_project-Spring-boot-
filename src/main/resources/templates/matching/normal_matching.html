@@ -4,7 +4,204 @@
       layout:decorator="layout/default">
   <body>
     <div layout:fragment="content">
+        <div id="frame">
+           <!-- 헤더 정보 -->
 
+           <!-- 메인 -> 일반매칭 버튼 후 출력되는 화면 -->
+           <br> <br> <br>
+           <div id="normal_matching_container">
+               <div id="matching_count">
+                   <div style="margin: 0 auto; line-height: 100px;">
+                       <h3
+                           style="margin: 0px; font-weight: 500; color: rgb(105, 105, 105);">이제까지
+                           매칭된 인원은 1524명 입니다</h3>
+                   </div>
+               </div>
+               <br> <br>
+               <div id="matching_area">
+                   <div id="in_matching_area">
+                       <div>
+                           <h3
+                               style="text-align: left; padding-left: 30px; color: rgb(78, 78, 78); margin-top: 30px;">매칭
+                               시작하기</h3>
+                       </div>
+                       <div id="match" style="margin-top: 70px;">
+                           <img src="/assets/img/netflex.png" style="width: 150px;" />
+                       </div>
+                       <div id="matching_price_info">
+                           <div
+                               style="float: left; line-height: 60px; padding-left: 70px; font-weight: 600;">
+                               <p>4인 기준</p>
+                           </div>
+                           <div
+                               style="float: right; line-height: 60px; padding-right: 60px; font-weight: 600;">
+                               <p>매월 3,650원</p>
+                           </div>
+                       </div>
+                       <form action="/matching/master" method="get"
+                           onsubmit="return match_click();">
+                           <div style="width: 60%; display: inline-block; margin-top: 30px;">
+                               <div class="matching_left">
+                                   <button class="matching_button" id="button1" type="button"
+                                       style="width: 170px; height: 50px;"
+                                       onmouseover="matching_button_on(this)"
+                                       onmouseout="matching_button_out(this)"
+                                       onclick="matching_button_click(this)">파티원</button>
+                               </div>
+                               <div class="matching_right">
+                                   <button class="matching_button" id="button2" type="button"
+                                       style="width: 170px; height: 50px;"
+                                       onmouseover="matching_button_on(this)"
+                                       onmouseout="matching_button_out(this)"
+                                       onclick="matching_button_click(this)">파티장</button>
+                               </div>
+                               <input type="hidden" id="ismember" name="ismember" value="yes" />
+                               <input type="hidden" id="id" name="id"
+                                   th:value="${session.id}" />
+                               <input type="hidden" id="headCount" name="headCount"/>
+                               <ul id="numberOfMember">
+                                   <li><button type="button" id="HCButton2"
+                                           onclick="hc_button_click(this)"
+                                           onmouseover="hc_button_on(this)"
+                                           onmouseout="hc_button_out(this)">2인</button></li>
+                                   <li><button type="button" id="HCButton3"
+                                           onclick="hc_button_click(this)"
+                                           onmouseover="hc_button_on(this)"
+                                           onmouseout="hc_button_out(this)">3인</button></li>
+                                   <li><button type="button" id="HCButton4"
+                                           onclick="hc_button_click(this)"
+                                           onmouseover="hc_button_on(this)"
+                                           onmouseout="hc_button_out(this)">4인</button></li>
+                               </ul>
+                               <div style="margin-top: 30px; display: block;">
+                                   <button type="submit" class="match_click">매칭 시작</button>
+                               </div>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+               <br> <br> <br>
+           </div>
+       </div>
+       <script type="text/javascript">
+           var temp = -1;
+
+           function matching_button_on(param) {
+               var item = param.id;
+
+               if (item == "button1") {
+                   document.getElementById("button1").style.backgroundColor = 'rgb(248, 248, 248)';
+               } else {
+                   document.getElementById("button2").style.backgroundColor = 'rgb(248, 248, 248)';
+               }
+
+           }
+
+           function matching_button_out(param) {
+               var item = param.id;
+
+               if (item == "button1") {
+                   document.getElementById("button1").style.backgroundColor = 'white';
+               } else {
+                   document.getElementById("button2").style.backgroundColor = 'white';
+               }
+           }
+
+           function matching_button_click(param) {
+               var item = param.id;
+
+               document.getElementById("button1").style.borderWidth = '1px';
+               document.getElementById("button2").style.borderWidth = '1px';
+               if (item == "button1") {
+                   document.getElementById("button1").style.borderWidth = '5px';
+                   document.getElementById("button1").style.borderColor = 'gray';
+                   document.getElementById("numberOfMember").style.display = "none";
+                   temp = 0;
+               } else {
+                   document.getElementById("button2").style.borderWidth = '5px';
+                   document.getElementById("button2").style.borderColor = 'gray';
+                   document.getElementById("numberOfMember").style.display = "block";
+                   temp = 1;
+               }
+
+           }
+           function hc_button_click(param) {
+               var item = param.id;
+
+               /*document.getElementById("HCButton1").style.borderWidth = '1px';*/
+               document.getElementById("HCButton2").style.borderWidth = '1px';
+               document.getElementById("HCButton3").style.borderWidth = '1px';
+               document.getElementById("HCButton4").style.borderWidth = '1px';
+
+               if (item == "HCButton1") {
+                   document.getElementById("HCButton1").style.borderWidth = '5px';
+                   document.getElementById("HCButton1").style.borderColor = 'gray';
+                   document.getElementById("headCount").value = "one";
+               } else if (item == "HCButton2") {
+                   document.getElementById("HCButton2").style.borderWidth = '5px';
+                   document.getElementById("HCButton2").style.borderColor = 'gray';
+                   document.getElementById("headCount").value = "two";
+               } else if (item == "HCButton3") {
+                   document.getElementById("HCButton3").style.borderWidth = '5px';
+                   document.getElementById("HCButton3").style.borderColor = 'gray';
+                   document.getElementById("headCount").value = "three";
+               } else {
+                   document.getElementById("HCButton4").style.borderWidth = '5px';
+                   document.getElementById("HCButton4").style.borderColor = 'gray';
+                   document.getElementById("headCount").value = "four";
+               }
+           }
+
+           function hc_button_on(param) {
+               var item = param.id;
+
+               if (item == "HCButton1") {
+                   document.getElementById("HCButton1").style.backgroundColor = 'rgb(248, 248, 248)';
+               } else if (item == "HCButton2") {
+                   document.getElementById("HCButton2").style.backgroundColor = 'rgb(248, 248, 248)';
+               } else if (item == "HCButton3") {
+                   document.getElementById("HCButton3").style.backgroundColor = 'rgb(248, 248, 248)';
+               } else {
+                   document.getElementById("HCButton4").style.backgroundColor = 'rgb(248, 248, 248)';
+               }
+           }
+
+           function hc_button_out(param) {
+               var item = param.id;
+
+               if (item == "HCButton1") {
+                   document.getElementById("HCButton1").style.backgroundColor = 'white';
+               } else if (item == "HCButton2") {
+                   document.getElementById("HCButton2").style.backgroundColor = 'white';
+               } else if (item == "HCButton3") {
+                   document.getElementById("HCButton3").style.backgroundColor = 'white';
+               } else {
+                   document.getElementById("HCButton4").style.backgroundColor = 'white';
+               }
+           }
+           function match_click() {
+
+               var sessionId = document.getElementById("id").value;
+
+               if (sessionId == "null" || sessionId == null || sessionId == undefined || sessionId == "") {
+                   alert("먼저 로그인을 해주세요.");
+                   return false;
+               }
+
+               if (temp == 0) {
+                   alert("파티원으로 매칭을 신청했습니다! \n매칭이 성공되면 알림 드릴게요:)");
+                   document.getElementById("ismember").value = "yes";
+                   return true;
+               } else if (temp == 1) {
+                   alert("파티장으로 매칭을 신청했습니다! \n매칭이 성공되면 알림 드릴게요:)");
+                   document.getElementById("ismember").value = "no";
+                   return true;
+               } else {
+                   alert("파티원과 파티장 중 1개를 선택해주세요.");
+                   return false;
+               }
+           }
+       </script>
     </div>
   </body>
 </html>

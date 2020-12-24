@@ -25,7 +25,7 @@ public interface BoardMapper {
 	public void boardWrite(@Param("boardVO") BoardVO boardVO);
 
 	// 글 수정
-	public void boardUpdate(@Param("boardVO") BoardVO boardVO);
+	public void boardUpdate(@Param("boardVO") BoardVO boardVO) throws Exception;
 
 	// 글 삭제
 	public void boardDelete(@Param("boardId") int boardId);
@@ -49,18 +49,37 @@ public interface BoardMapper {
 	 */
 	public int getBoardCount(String userId);
 
-	// 추천한 계정 찾기
-	public int checkLike(int boardId, String userId);
+	/**
+	 * 추천한 계정 찾기
+	 * @param boardId
+	 * @param userId
+	 * @return
+	 */
+	public int checkLike(@Param("boardId")int boardId, @Param("userId")String userId);
 
-	// 추천한 계정 추가
-	public void insertLikedUser(int boardId, String userId);
+	/**
+	 * 추천한 계정 추가
+	 * @param boardId
+	 * @param userId
+	 */
+	public void insertLikedUser(@Param("boardId")int boardId, @Param("userId")String userId);
 
-	// 추천한 계정 삭제
-	public void deleteLikedUser(int boardId, String userId);
+	/**
+	 * 추천한 계정 삭제
+	 * @param boardId
+	 * @param userId
+	 */
+	public void deleteLikedUser(@Param("boardId")int boardId, @Param("userId")String userId);
 
-	// 추천수 증가
-	public void updateLike(int boardId);
+	/**
+	 * 추천수 증가
+	 * @param boardId
+	 */
+	public void updateLike(@Param("boardId")int boardId);
 
-	// 추천수 감소
-	public void updateLikeDown(int boardId);
+	/**
+	 * 추천수 감소
+	 * @param boardId
+	 */
+	public void updateLikeDown(@Param("boardId")int boardId);
 }

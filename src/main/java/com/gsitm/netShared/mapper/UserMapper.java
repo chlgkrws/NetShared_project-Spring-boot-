@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 
 import org.apache.ibatis.annotations.Mapper;
-
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gsitm.netshared.dto.UserVO;
@@ -15,15 +15,15 @@ import com.gsitm.netshared.dto.UserVO;
 @Mapper
 public interface UserMapper {
 	// 회원가입
-	public void userInsert(UserVO userVO);
+	public void userInsert(@Param("userVO")UserVO userVO);
 
 	// 로그인
-	public UserVO userSearch(String id);
+	public UserVO userSearch(@Param("id")String id) throws Exception;
 
 	// 개인정보 수정
-	public int updateUserInfo(UserVO userVO);
+	public int updateUserInfo(@Param("userVO") UserVO userVO);
 
 	// 회원탈퇴
-	public int withdrawUser(String userId);
+	public int withdrawUser(@Param("userId") String userId) ;
 
 }

@@ -4,7 +4,13 @@
       layout:decorator="layout/default">
   <body>
     <div layout:fragment="content">
+        <script th:inline="javascript">
+            window.onload=function(){
+                alert([[${msg}]]);
+                location.href = [[${url}]];
+            }
 
+        </script>
     </div>
   </body>
 </html>

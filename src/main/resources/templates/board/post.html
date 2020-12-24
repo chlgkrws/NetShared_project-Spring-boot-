@@ -4,7 +4,90 @@
       layout:decorator="layout/default">
   <body>
     <div layout:fragment="content">
+          <!-- 컨트롤러에서 받아온 값 변수로 저장 -->
 
-    </div>
+      <div id="frame">
+          <div id="post_container">
+              <div class="post_content">
+                  <h2 style="margin-top: 60px; margin-bottom: 30px;">작성글 상세보기</h2>
+              </div>
+
+              <!-- 세션의 아이디와 게시글을 쓴 유저의 아이디가 같으면 수정/삭제 출력 -->
+              <th:block th:if="${session.id == board.userId}">
+                  <div style="margin-bottom: 10px; height: 30px">
+                      <div class="modify_delete">
+                          <form action="/board/delete" method="post"
+                              th:onsubmit="return delete_post();">
+                              <input type="hidden" name="boardId" th:value='${board.boardId }'>
+                              <button type="submit" id="delete" class="post_list">삭제</button>
+                          </form>
+                      </div>
+                      <div class="modify_delete">
+                          <button type="button" id="write_content" class="post_rec">수정</button>
+                      </div>
+                  </div>
+              </th:block>
+
+              <!-- 게시글 데이터 출력 -->
+              <hr class="content_boundary">
+              <div style="display: inline-block; width: 95%;">
+                  <div class="post_content" style="margin-top: 30px;">
+                      <h3><th:block th:text="${board.title }"></h3>
+                      <p style="font-size: 16px; margin-top: 30px; margin-bottom: 30px;">
+                          <b>작성자</b> &nbsp; <th:block th:text="${board.writer }"/> &nbsp; I &nbsp; <b>등록일</b>
+                          &nbsp; <th:block th:text="${board.createdTime }"/> &nbsp;I &nbsp; <b>추천수</b> &nbsp;
+                          <th:block th:text="${board.recommend }"/> &nbsp;I &nbsp; <b>별점</b> &nbsp;
+                          <th:block th:text="${star }"/>  &nbsp;I &nbsp; <b>장르</b> &nbsp; <th:block th:text="${board.genre}"/>
+                      </p>
+                      <hr style="margin-bottom: 30px;">
+                      <pre style="font-weight: 600; font-size: 18px; overflow: auto; white-space: pre-wrap;"><th:block th:text="${board.content }"/>
+                      </pre>
+                  </div>
+              </div>
+              <hr class="content_boundary" style="margin-bottom: 20px;">
+              <div style="float: right;">
+                  <div class="modify_delete">
+                      <button type="button" class="post_list"
+                          onclick="location.href='/board/list?num=1'">목록</button>
+                      <div class="modify_delete"></div>
+                  </div>
+                  <div class="modify_delete">
+                      <!-- 자신 게시물이나, 로그인이 안되어있으면 추천버튼 비활성화 -->
+                      <th:block th:if="${session.id != board.userId}">
+                          <th:block th:if="${session.id != null}">
+                              <form action="/board/likeUp" method="post" style="height: 30px;">
+                                  <input type="hidden" name="id" th:value="${session.id }" /> <input
+                                      type="hidden" name="boardId" th:value="${board.boardId }" />
+                                  <button type="submit" class="post_rec">추천</button>
+                              </form>
+                          </th:block>
+                      </th:block>
+                  </div>
+                  <br> <br> <br> <br>
+              </div>
+          </div>
+      </div>
+      <!-- 글작성 모달창  -->
+      <div th:replace="layout/modal :: div"></div>
+          <!--게시물 삭제 이벤트 -->
+      <script th:inline="javascript">
+         function delete_post() {
+             if (confirm("정말 삭제 하시겠습니까?")) {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
+     </script>
+     <script type="text/javascript">
+        $(document).on("click", "#write_content", function() {
+            $(".replyModal").attr("style", "display:block;");
+        });
+
+        $(".modal_cancel").click(function() {
+            $(".replyModal").attr("style", "display:none;");
+        });
+     </script>
+     </div>
   </body>
 </html>

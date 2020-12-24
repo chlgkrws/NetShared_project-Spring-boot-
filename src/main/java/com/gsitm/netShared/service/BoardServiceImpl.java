@@ -25,7 +25,11 @@ public class BoardServiceImpl implements BoardService {
 
 	// 글 수정
 	public void boardUpdate(BoardVO boardVO) {
-		boardMapper.boardUpdate(boardVO);
+		try {
+			boardMapper.boardUpdate(boardVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 글 삭제

@@ -4,7 +4,12 @@
       layout:decorator="layout/default">
   <body>
     <div layout:fragment="content">
+        <script th:inline="javascript">
+            window.onload=function(){
+            	alert("hi");
+            }
 
+        </script>
     </div>
   </body>
 </html>

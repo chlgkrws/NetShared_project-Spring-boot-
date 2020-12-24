@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+  <body>
+    <div layout:fragment="content">
+        <div id="frame">
+            <br> <br> <br>
+
+            <!-- 로그인 액션 -->
+            <div id="login_login">
+                <div
+                    style="padding-left: 50px; padding-right: 50px; padding-top: 10px;">
+                    <div>
+                        <p style="font-weight: 600; font-size: 30px;">로그인</p>
+                    </div>
+                    <div class="sign_up_div">
+                        <p>ID</p>
+                    </div>
+                    <form action="/user/login" method="post">
+                        <input class="login_input" type="text" id="id" name="id"
+                            placeholder="아이디를 입력하세요." />
+                        <div class="sign_up_div">
+                            <p>PASSWORD</p>
+                        </div>
+                        <input class="login_input" type="password" name="password"
+                            placeholder="비밀번호를 입력하세요." style="margin-bottom: 30px" />
+                        <p style="margin-bottom: 25px"></p>
+                        <button type="submit" id="click_login" class="login_button"
+                            style="background-color: rgb(133, 172, 255);">로그인</button>
+                    </form>
+                    <button type="button" class="login_button"
+                        onclick="location.href='/user/signup'"
+                        style="background-color: rgb(213, 218, 218); color: rgb(75, 75, 75); margin-top: 18px">회원가입</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

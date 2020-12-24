@@ -23,7 +23,7 @@
                 </p>
                 <br>
                 <button type="button" class='radius_button'
-                    onclick="location.href='/views/matching/normal_matching.jsp'"
+                    onclick="location.href='/matching/normal'"
                     style="width: 150px; height: 50px;">일반 매칭</button>
             </div>
             <!-- left 끝 -->
@@ -219,15 +219,16 @@
 
         <div th:replace="layout/footer :: footer"></div>
     </div>
+    <script type="text/javascript">
+        function go_quick_matching() {
+            if (confirm("chlgkr**님의 빠른 매칭을 이용하시겠습니까?\n빠른매칭을 이용할 경우, 바로 매칭이 되므로\n신중히 선택해주십시오")) {
+                location.href = '/matching/quickview';
+            } else {
+                return false;
+            }
+        }
+    </script>
     </div>
   </body>
-  <script type="text/javascript">
-    function go_quick_matching() {
-        if (confirm("chlgkr**님의 빠른 매칭을 이용하시겠습니까?\n빠른매칭을 이용할 경우, 바로 매칭이 되므로\n신중히 선택해주십시오")) {
-            location.href = '/views/matching/quick_matching.jsp';
-        } else {
-            return false;
-        }
-    }
-</script>
+
 </html>

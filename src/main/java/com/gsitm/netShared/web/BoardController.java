@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,7 +81,7 @@ public class BoardController {
 
 		boardService.boardDelete(boardId);
 
-		modelAndView.setViewName("/board/list?num=1");
+		modelAndView.setViewName("redirect:/board/list?num=1");
 		return modelAndView;
 	}
 
@@ -89,11 +90,11 @@ public class BoardController {
 	public ModelAndView write(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam String title, @RequestParam String star, @RequestParam String genre,
 			@RequestParam Integer boardId, @RequestParam String modal_content, @RequestParam String id,
-			@RequestParam String username, ) {
+			@RequestParam String username, @RequestParam String valid, @RequestParam String writer) {
 		// 파라미터 명 수정
 
 		// 글쓰기인지 수정인지 체크
-		boolean isModify = request.getParameter("valid").equals("true") ? true : false;
+		boolean isModify = valid.equals("true") ? true : false;
 		int starRate = Integer.parseInt(star);
 		BoardVO boardVO = new BoardVO(); // BoardVO에 파라미터로 받은 데이터를 넣어줌
 		boardVO.setUserId(id);
@@ -103,9 +104,7 @@ public class BoardController {
 		boardVO.setStarRate(starRate);
 		boardVO.setContent(modal_content);
 		boardVO.setValid(true);
-
 		if (isModify) {
-			String writer = request.getParameter("writer");
 			boardVO.setBoardId(boardId);
 			boardVO.setWriter(writer);
 			boardService.boardUpdate(boardVO);
@@ -116,5 +115,30 @@ public class BoardController {
 		return modelAndView;
 	}
 
+	@RequestMapping("/likeUp")
+	public ModelAndView likeUp(ModelAndView modelAndView, HttpServletRequest request,
+			@RequestParam Integer boardId) {
+		String userId = (String) request.getSession().getAttribute("id");
+
+		// likeUp에 있는지 체크
+		int check = boardService.checkLike(boardId, userId);
+
+		System.out.println(check);
+		//원래 0인 게시판이라면 +1을 할 수 있도록 함.
+
+		// 이미 있다면 1 없으면 0
+		if (check == 1) {
+			boardService.deleteLikedUser(boardId, userId);
+			boardService.updateLikeDown(boardId);
+			modelAndView.setViewName("redirect:/board/view?boardId="+boardId);
+		// 없다면 insert(계정정보), update(게시판 추천수) 후 추천 수 증가(redirect)
+		} else {
+			boardService.insertLikedUser(boardId, userId);
+			boardService.updateLike(boardId);
+			modelAndView.setViewName("redirect:/board/view?boardId="+boardId);
+		}
+
+		return modelAndView;
+	}
 
 }
