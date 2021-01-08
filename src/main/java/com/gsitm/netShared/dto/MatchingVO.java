@@ -6,15 +6,15 @@ import lombok.Data;
 
 @Data
 public class MatchingVO {
-	private int matching_id;
-	private String leader_id;
+	private int matchingId;
+	private String leaderId;
 	private int	dcPercent;
 	private int maxNumberOfMember;
 	private boolean isFull;
 	private boolean isNormal;
 	private int howLongUse;
-	private String net_id;
-	private String net_password;
+	private String netId;
+	private String netPassword;
 	private Timestamp waitingTime;
 	private Timestamp createdTime;
 	private Timestamp updateTime;

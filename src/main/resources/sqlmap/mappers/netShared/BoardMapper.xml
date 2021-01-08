@@ -19,7 +19,7 @@
 
     <!-- 글 리스트 조회 -->
     <select id="getBoardList" resultType="BoardVO">
-        SELECT *
+        SELECT board_id, user_id,  writer, title, content, date_format(created_time,'%Y-%m-%d') as created_time , recommend, genre, valid, star_rate, update_time
           FROM board_tbl
     <if test='userId != null'>
          WHERE user_id = #{userId}

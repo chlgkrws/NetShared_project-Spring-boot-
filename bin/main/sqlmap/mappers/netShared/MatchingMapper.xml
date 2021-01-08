@@ -2,13 +2,174 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gsitm.netshared.mapper.MatchingMapper">
 
-   <select id="isExistWaiting" resultType="boolean">
+   <select id="isExistWaiting" resultType="int">
         SELECT count(user_id)
-          FROM #{tableName}
+          FROM ${tableName}
          WHERE user_id = #{userId}
-
    </select>
 
+    <!-- 파티원으로 신청 가능한지 판별 -->
+   <select id="isPossibleToWaitMember" resultType="int">
+        SELECT distinct wouldUYN
+          FROM party_member_info_tbl
+         WHERE member_id = #{userId}
+   </select>
+
+
+    <!--파티장으로 신청 가능한지 판별 -->
+    <select id="isPossibleToWaitLeader" resultType="int">
+        SELECT count(wouldUYN)
+          FROM matching_tbl
+         WHERE leader_id = #{userId} and wouldUYN = 1
+   </select>
+
+<!--     일반 매칭 - 파티원 insert -->
+    <insert id="insertWaitMember">
+        INSERT INTO member_wait_tbl(user_id)
+        VALUES (#{userId})
+    </insert>
+
+<!--     일반 매칭 - 파티원 update -->
+    <update id="updateWaitMember">
+        UPDATE member_wait_tbl
+           SET is_wait = 1, waiting_time = #{now}, update_time = #{now},  wouldUYN = 1
+         WHERE user_id = #{userId}
+    </update>
+
+<!--     일반 매칭 - 파티장 insert -->
+    <insert id="insertWaitLeader">
+        INSERT
+          INTO leader_wait_tbl(user_id ,max_number_of_member, net_id, net_password)
+        VALUES(#{userId},#{HNOM},#{netId},#{netPassword})
+    </insert>
+
+<!-- 일반 매칭 - 파티장 update -->
+    <update id="updateWaitLeader">
+        UPDATE leader_wait_tbl
+           SET is_wait = 1, waiting_time = #{now}, update_time = #{now},  wouldUYN = 1
+         WHERE user_id = #{userId}
+    </update>
+
+<!-- 매칭 가능한 리더 찾기(맴버가 매칭 신청 시) -->
+    <select id="searchLeaderToMatching" resultType="LeaderVO">
+        SELECT *
+          FROM leader_wait_tbl
+         WHERE is_wait = 1 ORDER BY waiting_time asc
+         LIMIT 1
+    </select>
+
+<!--     매칭 가능한 맴버 찾기(리더가 매칭 신청 시) -->
+    <select id="searchMemberToMatching" resultType="MemberVO">
+        SELECT *
+          FROM member_wait_tbl
+         WHERE is_wait = 1
+      ORDER BY waiting_time asc
+         LIMIT 3
+    </select>
+
+<!-- 매칭아이디 조회 -->
+    <select id="getMatchingId" resultType="int">
+        SELECT matching_id
+          FROM matching_tbl
+         WHERE leader_id = #{matchingVO.leaderId}
+    </select>
+
+<!-- 매칭테이블 데이터 삽입 -->
+    <insert id="insertMatchingInfo">
+        INSERT
+          INTO matching_tbl(leader_id, dc_percent, max_number_of_member, is_full, is_normal, how_long_use, net_id, net_password)
+        VALUES(#{matchingVO.leaderId}, #{matchingVO.dcPercent}, #{matchingVO.maxNumberOfMember}, ${matchingVO.isFull}, ${matchingVO.isNormal}, #{matchingVO.howLongUse},#{matchingVO.netId}, #{matchingVO.netPassword})
+    </insert>
+
+<!-- 파티 맴버 삽입 -->
+    <!-- //두가지 버전 -->
+    <insert id="insertPartyMember">
+        INSERT
+          INTO party_member_info_tbl(matching_id, member_id, pay, leader_id)
+        VALUES(#{matchingId},#{userId},3650, #{leaderId})
+    </insert>
+
+<!-- member_wait안에 is_wait데이터 false로 변환 -->
+    <update id="updateIswaitToFalseInMemberWait">
+        UPDATE member_wait_tbl
+           SET is_wait = 0, wouldUYN = 0
+         WHERE user_id = #{memberVO.userId}
+    </update>
+
+<!-- leader_wait안에 is_wait데이터 false로 변환 -->
+    <update id="updateIswaitToFalseInLeaderWait">
+        UPDATE leader_wait_tbl
+           SET is_wait = 0, wouldUYN = 0
+         WHERE user_id = #{leaderId}
+    </update>
+
+<!-- 매칭 중인 파티 중 빈자리가 있는지 확인 -->
+    <select id="canIJoinYourMatching" resultType="MatchingVO">
+        SELECT *
+          FROM matching_tbl
+         WHERE is_full = false
+      ORDER BY waiting_time LIMIT 1
+    </select>
+
+<!-- 현재 매칭테이블에 매칭된 파티원 수 -->
+    <select id="getPresentMatchingMember" resultType="int">
+        SELECT count(*)
+          FROM matching_tbl m join party_member_info_tbl p
+            ON m.leader_id = p.leader_id
+         WHERE m.matching_id = #{matchingId} and p.wouldUYN = true
+    </select>
+
+<!--  파티원 수가 다 찼을 때 -->
+    <update id="setIsFullTrue">
+        UPDATE matching_tbl
+           SET is_full = true
+         WHERE matching_id = #{matchingId}
+    </update>
+
+<!-- member_wait안에 is_wait데이터 false로 삽입 -->
+    <insert id="insertIswaitToFalseInMemberWait">
+        INSERT
+          INTO member_wait_tbl(user_id, is_wait, wouldUYN)
+        VALUES(#{userId}, 0, 0)
+    </insert>
+
+    <select id="getLeaderInfo" resultType="LeaderInfoVO">
+        SELECT m.net_id, m.net_password, u.username
+          FROM party_member_info_tbl p join matching_tbl m join user_tbl u
+            ON p.matching_id = m.matching_id and m.leader_id = u.user_id
+         WHERE p.member_id = #{userId} and m.wouldUYN = 1;
+    </select>
+
+    <delete id="matchingCancel">
+        DELETE
+          FROM party_member_info_tbl
+         WHERE member_id = #{userId}
+    </delete>
+
+
+
+<!--     빠른 매칭 - 파티장 insert -->
+    <insert id="insertWaitLeaderQuick">
+        INSERT
+          INTO leader_wait_tbl(user_id, is_normal, dc_percent, how_long_use, max_number_of_member, net_id, net_password)
+        VALUES(#{userId}, #{isNormal}, #{dcCount}, #{leastVal}, #{HNOM},#{netId},#{netPassword})
+    </insert>
+
+<!-- 일반 매칭 - 파티장 update -->
+    <update id="updateWaitLeaderQuick">
+        UPDATE leader_wait_tbl
+           SET is_wait = 1, waiting_time = #{now}, update_time = #{now},  wouldUYN = 1
+         WHERE user_id = #{userId}
+    </update>
+
+<!--     빠른 매칭 대기열 조회 -->
+    <select id="getLeaderVOList" resultType="LeaderVO">
+        SELECT *
+          FROM leader_wait_tbl
+         WHERE is_normal = false
+      ORDER BY waiting_time asc
+         LIMIT 8
+    </select>
 
    <!--  // 파티원 신청자가 신청 가능한지 판별.
     public boolean isPossibleToWaitMember(@Param("userId") String userId);

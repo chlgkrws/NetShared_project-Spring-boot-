@@ -51,7 +51,7 @@
                        <p>명 까지 참여가능</p>
                    </div>
                    <br>
-                   <button type="submit" class="radius_button"
+                   <button type="button" class="radius_button"
                        onclick="quick_matching()"
                        style="font-size: 10px; width: 100px; height: 30px;">신청하기
                    </button>
@@ -65,12 +65,13 @@
        </div>
        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-       <script type="text/javascript">
+       <script th:inline="javascript">
            /* 빠른 매칭 신청서 유효성 검사 */
            function quick_matching() {
                var least_val = document.getElementById("least_val").value;
                var dc_count = document.getElementById("dc_count").value;
                var hmp = document.getElementById("how_many_people").value;
+               var id = [[${session.id}]];
 
                if (least_val == "") {
                    least_val = 2;
@@ -102,8 +103,8 @@
                if (confirm(least_val + "개월 동안 " + dc_count + "% 할인된 금액을 최대 " + hmp
                        + "인 참여로 신청할까요?"))
 
-                   alert("빠른매칭 신청 성공!\n파티원들이 모이면 알림드릴게요:)");
-               location.href = '/';
+               alert("빠른매칭 신청 성공!\n파티원들이 모이면 알림드릴게요:)");
+               location.href = '/matching/quickmatching?ismember=no&headCount='+hmp+'&leastval='+least_val+'&dccount='+dc_count+'&id='+id;
            }
        </script>
     </div>

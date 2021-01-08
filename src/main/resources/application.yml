@@ -23,4 +23,4 @@ spring:
 mybatis:
   config-location: classpath:sqlmap/sqlmap-config.xml
   mapper-locations: classpath*:sqlmap/mappers/**/*.xml
-  type-aliases-package: com.gsitm.career
+  type-aliases-package: com.gsitm.netshared

@@ -66,6 +66,8 @@ public class UserController {
 			modelAndView.addObject("userVO", userVO);
 			request.getSession().setAttribute("id", userVO.getUserId());
 			request.getSession().setAttribute("username", userVO.getUserName());
+			request.getSession().setAttribute("viewLeaderInfo", null);
+
 			/*
 			 * HttpUtil.forward(request, response, "views/login/login_session.jsp"); return;
 			 */
@@ -115,8 +117,8 @@ public class UserController {
 	public ModelAndView postSignUp(ModelAndView modelAndView, HttpServletRequest request,
 			@RequestParam String id, @RequestParam String password, @RequestParam String username, @RequestParam String phone, @RequestParam String account) {
 		UserVO userVO = new UserVO(); // UserVO에 회원가입창에서 받아온 데이터들을 넣음
-		
-		
+
+
 		userVO.setUserId(id);
 		userVO.setPassword(password);
 		userVO.setUserName(username);

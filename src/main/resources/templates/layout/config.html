@@ -21,6 +21,7 @@
             <div th:replace="layout/modal :: div"></div>
             <th:block th:with="start=${page.startPageNum} , end=${page.endPageNum}">
             <a th:href="@{/board/list(num=${page.startPageNum -1})}">
+            location.href = '/board/list?num=1&userid='+[[${session.id}]];
          -->
 
       <!-- custom CSS -->

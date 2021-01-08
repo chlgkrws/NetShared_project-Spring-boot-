@@ -24,8 +24,11 @@ public class MatchingController {
 	private MatchingService matchingService;
 
 	@RequestMapping("/master")
-	public ModelAndView master(ModelAndView modelAndView, HttpServletRequest request, @RequestParam(value = "ismember") String isMember,
-			@RequestParam(value = "headCount") String headcount, @RequestParam(value = "id") String userId) {
+	public ModelAndView master(ModelAndView modelAndView, HttpServletRequest request,
+			@RequestParam("ismember") String isMember, @RequestParam("headCount") String headcount,
+			@RequestParam(value = "id") String userId,
+			@RequestParam(required = false, name = "leastval", defaultValue = "0") int leastVal,
+			@RequestParam(required = false, name = "dccount", defaultValue = "0") int dcCount) {
 
 		Integer headCount = getHeadCount(headcount, isMember);
 		// String userId = (String) request.getSession().getAttribute("id"); 나중에는 사용하세요.
@@ -57,17 +60,26 @@ public class MatchingController {
 
 				// 이미 존재하는 매칭에 참여
 				if (canIJoinYourMatching != null) {
-					int matchingId = canIJoinYourMatching.getMatching_id();
+					int matchingId = canIJoinYourMatching.getMatchingId();
 					int maxNumberOfMember = canIJoinYourMatching.getMaxNumberOfMember() - 1; // 4인 파티면 파티장을 제외하고
 																								// 3명이므로, 범위(2~4)
 					int presentNumberOfMember = matchingService.getPresentMatchingMember(matchingId);
-					leaderId = canIJoinYourMatching.getLeader_id();
-
+					leaderId = canIJoinYourMatching.getLeaderId();
+					System.out.println(maxNumberOfMember + " " + presentNumberOfMember);
 					// 새로 들어온 파티원이 마지막(최대 인원 충족)이라면
-					if (maxNumberOfMember == presentNumberOfMember + 1) {
+					if (maxNumberOfMember <= presentNumberOfMember + 1) {
 						matchingService.setIsFullTrue(matchingId); // matching isfull= true;
 					}
-					matchingService.insertIswaitToFalseInMemberWait(userId); // member_wait_tbl에 is_wait,woulduyn를 false로 주고
+
+					try {
+						matchingService.insertIswaitToFalseInMemberWait(userId); // member_wait_tbl에 is_wait,woulduyn를
+																					// false로 주고
+					} catch (Exception e) {
+						MemberVO memberVO = new MemberVO();
+						memberVO.setUserId(userId);
+						matchingService.updateIswaitToFalseInMemberWait(memberVO);
+					}
+
 					matchingService.insertPartyMember(matchingId, leaderId, userId); // partymember테이블에 매칭테이블에 인원수 추가
 
 					// 매칭 알람(해야함)
@@ -81,8 +93,12 @@ public class MatchingController {
 
 					leaderId = leaderVO.getUserId();
 					MatchingVO matchingVO = new MatchingVO();
-					setMatchingInfo(matchingVO, leaderId, 0, headCount,
-							leaderVO.getMaxNumberOfMember() == 2 ? true : false, true, 0, netId, netPassword);
+					System.out.println(leaderVO.getMaxNumberOfMember() + " getMaxNOM");
+					setMatchingInfo(matchingVO, leaderId, leaderVO.getDcPercent(), leaderVO.getMaxNumberOfMember(),
+							leaderVO.getMaxNumberOfMember() == 2 ? true : false, true, leaderVO.getHowLongUse(), netId,
+							netPassword);
+
+					matchingService.insertMatchingInfo(matchingVO);
 					int matchingId = matchingService.getMatchingId(matchingVO);
 					matchingService.updateIswaitToFalseInLeaderWait(leaderId);
 					matchingService.insertPartyMember(matchingId, leaderId, userId);
@@ -129,6 +145,7 @@ public class MatchingController {
 
 					// 매칭테이블에 매칭 insert
 					// 매칭 id 받아옴.
+					matchingService.insertMatchingInfo(matchingVO);
 					int matchingId = matchingService.getMatchingId(matchingVO);
 					if (matchingId == -1) {
 						System.out.println("matchingId 조회불가");
@@ -138,13 +155,12 @@ public class MatchingController {
 					for (int i = 0; i < wantHeadCount; i++) {
 						// 매칭된 파티원들을 party_member에 넣어주고 member_wait에 is_wait 0으로 바꿔줌
 						MemberVO tempVO = waitingMember.get(i);
-						matchingService.insertPartyMember(matchingId, userId, tempVO);
+						matchingService.insertPartyMember(matchingId, userId, tempVO.getUserId());
 						matchingService.updateIswaitToFalseInMemberWait(tempVO);
 
 						// 해당 인원들에게 매칭이 되었다고 알림(해야함)
 					}
 
-					// 매칭 테이블에 넣고, 매칭 중인 파티원 테이블에도 데이터를 넣어준다.(매칭아이디 값에 해당하는)
 				} else {
 					// 대기중인 파티원이 없다면 wait_tbl에 is_wait를 true로 주고 insert
 					insertWaitLeader(matchingService, userId, netId, netPassword, headCount);
@@ -157,6 +173,8 @@ public class MatchingController {
 				return modelAndView;
 			}
 		}
+
+		modelAndView.setViewName("redirect:/");
 		return modelAndView;
 	}
 
@@ -190,20 +208,72 @@ public class MatchingController {
 	@RequestMapping(value = "/quick", method = RequestMethod.GET)
 	public ModelAndView getQuick(ModelAndView modelAndView, HttpServletRequest request) {
 
+		if (request.getSession().getAttribute("id") == null) {
+			modelAndView.addObject("msg", "로그인 후 이용해주세요.");
+			modelAndView.addObject("url", "/");
+			modelAndView.setViewName("layout/alert");
+			return modelAndView;
+		}
 		modelAndView.setViewName("matching/matching");
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/quick", method = RequestMethod.POST)
-	public ModelAndView postQuick(ModelAndView modelAndView, HttpServletRequest request) {
+	@RequestMapping(value = "/quickmatching", method = RequestMethod.GET)
+	public ModelAndView postQuick(ModelAndView modelAndView, HttpServletRequest request,
+			@RequestParam("ismember") String isMember, @RequestParam("headCount") String headcount,
+			@RequestParam(value = "id") String userId,
+			@RequestParam(required = false, name = "leastval", defaultValue = "0") int leastVal,
+			@RequestParam(required = false, name = "dccount", defaultValue = "0") int dcCount) {
 
+		String netId = "chlgkrwns";
+		String netPassword = "1234";
+		boolean isPossibleRegister;
+		Integer headCount = Integer.parseInt(headcount);
+		boolean isNormal = false;
+		isPossibleRegister = matchingService.isPossibleToWaitLeader(userId);
+
+		//빠른 매칭 리더 신청
+		if(isPossibleRegister) {
+			try {
+				matchingService.insertWaitLeaderQuick(userId, isNormal, headCount, netId, netPassword, leastVal, dcCount);
+			}catch (Exception e) {
+				modelAndView.addObject("msg", "이미 신청하셨습니다.");
+				modelAndView.addObject("url", "redirect:/");
+				modelAndView.setViewName("layout/alert");
+				return modelAndView;
+			}
+		}
+
+		modelAndView.setViewName("redirect:/");
 		return modelAndView;
 	}
 
 	@RequestMapping("/quickview")
-	public ModelAndView quickView(ModelAndView modelAndView, HttpServletRequest request) {
+	public ModelAndView quickView(ModelAndView modelAndView, HttpServletRequest request, @RequestParam("userid") String leaderId) {
+		String userId = (String) request.getSession().getAttribute("id");
+		LeaderVO leaderVO = matchingService.searchLeaderToMatching();
+		leaderId = leaderVO.getUserId();
+		MatchingVO matchingVO = new MatchingVO();
+		System.out.println(leaderVO.getMaxNumberOfMember() + " getMaxNOM");
+		setMatchingInfo(matchingVO, leaderId, leaderVO.getDcPercent(), leaderVO.getMaxNumberOfMember(),
+				leaderVO.getMaxNumberOfMember() == 2 ? true : false, true, leaderVO.getHowLongUse(), "chlgkrws",
+				"jt67f7!@");
 
+		matchingService.insertMatchingInfo(matchingVO);
+		int matchingId = matchingService.getMatchingId(matchingVO);
+		matchingService.updateIswaitToFalseInLeaderWait(leaderId);
+		matchingService.insertPartyMember(matchingId, leaderId, userId);
 		modelAndView.setViewName("matching/quick_matching");
+		return modelAndView;
+	}
+
+	@RequestMapping("/cancel")
+	public ModelAndView cancel(ModelAndView modelAndView, HttpServletRequest request) {
+		String userId = (String) request.getSession().getAttribute("id");
+
+		matchingService.matchingCancel(userId);
+
+		modelAndView.setViewName("redirect:/");
 		return modelAndView;
 	}
 
@@ -248,13 +318,13 @@ public class MatchingController {
 	// 매칭 테이블에 넣어줄 리더 데이터 set
 	public void setMatchingInfo(MatchingVO matchingVO, String userId, int dcPercent, int headCount, boolean isFull,
 			boolean isNormal, int howLongUse, String netId, String netPassword) {
-		matchingVO.setLeader_id(userId);
+		matchingVO.setLeaderId(userId);
 		matchingVO.setDcPercent(0);
 		matchingVO.setMaxNumberOfMember(headCount);
 		matchingVO.setFull(isFull);
 		matchingVO.setNormal(true);
 		matchingVO.setHowLongUse(0);
-		matchingVO.setNet_id(netId);
-		matchingVO.setNet_password(netPassword);
+		matchingVO.setNetId(netId);
+		matchingVO.setNetPassword(netPassword);
 	}
 }

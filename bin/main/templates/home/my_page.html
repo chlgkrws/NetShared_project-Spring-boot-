@@ -51,7 +51,31 @@
                 <div class="my_page_right">
                     <h3>ㆍㆍㆍㆍㆍㆍㆍ</h3>
                 </div>
-
+                <th:block th:if="${matched}">
+                <div id="quick_matching_wrap"
+                    style="width: 60%; display: inline-block; height: 500px; padding-top: 40px;">
+                    <div id="success_matching" style="height: 700px;">
+                        <p>하단에 있는 아이디와 비밀번호를 사용해주세요!</p>
+                        <div class="party_leader" style="width: 100%">
+                            <p>
+                                <b><th:block th:text="${leaderInfoVO.username}"></th:block></b>님의 파티
+                            </p>
+                            <p style="color: rgb(105, 105, 105);">파티 생성일 : 2020년 11월 9일</p>
+                        </div>
+                        <div>
+                            <p>
+                                아이디 : <b> <th:block th:text="${leaderInfoVO.netId}"></th:block></b>
+                            </p>
+                            <p>
+                                비밀번호 : <b> <th:block th:text="${leaderInfoVO.netPassword}"></th:block></b>
+                            </p>
+                        </div>
+                        <br>
+                        <button type="button" id="go_home" onclick="go_home()">매칭 탈퇴</button><br> <br>
+                        <small>*매칭 탈퇴 시 20일을 기준으로 계산됩니다</small>
+                    </div>
+                </div>
+                  </th:block>
                 <div>
                     <a href="/user/modify">개인정보 수정</a>
                 </div>
@@ -73,6 +97,12 @@
               return;
           }
       }
+    </script>
+    <script type="text/javascript">
+        function go_home() {
+            alert("언제나 NetShared를 사랑해주셔서 감사합니다")
+            location.href = '/matching/cancel';
+        }
     </script>
     </div>
   </body>

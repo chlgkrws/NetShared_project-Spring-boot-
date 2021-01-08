@@ -1,10 +1,10 @@
 package com.gsitm.netshared.web;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,19 +12,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gsitm.netshared.dto.LeaderInfoVO;
+import com.gsitm.netshared.dto.LeaderVO;
 import com.gsitm.netshared.dto.UserVO;
+import com.gsitm.netshared.service.MatchingService;
 import com.gsitm.netshared.service.UserService;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
-	@Autowired
+	@Autowired(required = false)
 	private UserService userService;
+
+	@Autowired(required = false)
+	private MatchingService matchingService;
 
 	@GetMapping("/")
 	public ModelAndView view(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 
+		//세션값이 매칭 데이터 한번 조회한다음에, 모달로 알림 띄어주고, 그 다음부터 안뜨게 하고 마이페이지에서 해당 매칭아이디 비번 볼 수 있게 함.
+
+		if(request.getSession().getAttribute("viewLeaderInfo") == null) {
+			LeaderInfoVO leaderInfoVO = matchingService.getLeaderInfo((String)request.getSession().getAttribute("id"));
+			System.out.println("hi isNew");
+			if(leaderInfoVO != null) {
+				System.out.println("hi not null");
+				modelAndView.addObject("isNew", true);
+				modelAndView.addObject("leaderInfoVO", leaderInfoVO);
+				request.getSession().setAttribute("viewLeaderInfo", "not null");
+			}
+		}
+
+		//빠른 매칭 대기열
+		ArrayList<LeaderVO> leaderList = matchingService.getLeaderVOList();
+
+		modelAndView.addObject("leaderList", leaderList);
 		modelAndView.setViewName("home/home");
 		return modelAndView;
 	}
@@ -41,6 +64,13 @@ public class HomeController {
 		// 계좌 번호 가리기
 		userVO.setAccount(encryptAccount(userVO.getAccount()));
 
+		//매칭되어 있는 정보 가져오기
+		LeaderInfoVO leaderInfoVO = matchingService.getLeaderInfo((String)request.getSession().getAttribute("id"));
+		if(leaderInfoVO != null) {
+			modelAndView.addObject("matched", true);
+			modelAndView.addObject("leaderInfoVO", leaderInfoVO);
+		}
+
 		request.setAttribute("userVO", userVO);
 		modelAndView.setViewName("home/my_page");
 
@@ -50,8 +80,6 @@ public class HomeController {
 	@GetMapping("/intro")
 	public ModelAndView intro(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		modelAndView.setViewName("home/page_intro");
-		request.getSession().setAttribute("username", "최학준");
-		request.getSession().setAttribute("id", "chlgkrws");
 		return modelAndView;
 	}
 

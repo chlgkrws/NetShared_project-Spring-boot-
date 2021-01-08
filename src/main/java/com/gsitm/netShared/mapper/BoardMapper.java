@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gsitm.netshared.dto.BoardVO;
+import com.gsitm.netshared.dto.UserVO;
 
 /**
  * 게시판 관련 매퍼
@@ -82,4 +83,6 @@ public interface BoardMapper {
 	 * @param boardId
 	 */
 	public void updateLikeDown(@Param("boardId")int boardId);
+
+
 }

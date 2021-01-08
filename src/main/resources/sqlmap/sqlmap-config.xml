@@ -17,6 +17,7 @@
         <typeAlias alias="MemberVO" type="com.gsitm.netshared.dto.MemberVO"/>
         <typeAlias alias="ReplyVO" type="com.gsitm.netshared.dto.ReplyVO"/>
         <typeAlias alias="UserVO" type="com.gsitm.netshared.dto.UserVO"/>
+        <typeAlias alias="LeaderInfoVO" type="com.gsitm.netshared.dto.LeaderInfoVO"/>
     </typeAliases>
 
     <typeHandlers>

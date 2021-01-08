@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsitm.netshared.mapper.InsertMapper">
+
+    <insert id="insertUser">
+    INSERT INTO user(empno, username, origin_dept, current_dept, hire_date, exp_time, current_job, current_project, job_goal_1, job_goal_2, job_goal_3,
+    domain_goal_1, domain_goal_2, domain_goal_3, edu_goal_1, edu_goal_2, edu_goal_3,career_goal_1,career_goal_2,career_goal_3)
+    VALUES(#{userVO.empNo}
+    #{userVO.userName}
+    #{userVO.birth}
+    #{userVO.originDept}
+    #{userVO.currentDept}
+    #{userVO.hireDate}
+    #{userVO.expTime}
+    #{userVO.currentJob}
+    #{userVO.currentProject}
+    #{userVO.jobGoal1}
+    #{userVO.jobGoal2}
+    #{userVO.jobGoal3}
+    #{userVO.domainGoal1}
+    #{userVO.domainGoal2}
+    #{userVO.domainGoal3}
+    #{userVO.eduGoal1}
+    #{userVO.eduGoal2}
+    #{userVO.eduGoal3}
+    #{userVO.careerGoal1}
+    #{userVO.careerGoal2}
+    #{userVO.careerGoal3}
+    )
+</insert>
+
+</mapper>
